@@ -1,14 +1,13 @@
 lessc_opts = {
-    '/media/samba/devel.ulabox.com/htdocs/css/_less/': {
-        #css path
+    #each one of the directories to scan should be finished with / (Linux / OSX) or \ (Windows)
+    '/media/samba/devel.ulabox.com/htdocs/css/less/': {
+        #css path finished with / (Linux / OSX) or \ (Windows)
         'css_path': '/media/samba/devel.ulabox.com/htdocs/css/',
-        #path for cssembed
+        #cssembed JAR
         'cssembed_path': '/media/samba/lib/cssembed-0.4.5.jar',
     },
     '/media/samba/devel.ulabox.com/htdocs/static/less/': {
-        #css path
         'css_path': '/media/samba/devel.ulabox.com/htdocs/static/css/',
-        #path for cssembed
         'cssembed_path': '/media/samba/lib/cssembed-0.4.5.jar',
     }
 }
