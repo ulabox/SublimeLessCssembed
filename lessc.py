@@ -22,18 +22,20 @@ class CompileLessOnSave(sublime_plugin.EventListener):
                 opts['less_path'] = path
 
         if opts is None:
-            view.set_status('less', 'File saved but no LESS configuration found for ' + folder_name)
+            view.set_status('less', 'File saved but no LESS configuration found for folder ' + folder_name)
             return
 
         if os.name == "nt":
-            args = [sublime.packages_path() + '\LESS\windows\lessc.exe']
+            lessc = os.path.dirname(os.path.realpath(__file__)) + '\LESS\windows\lessc.exe'
         else:
-            css_path = opts['css_path']
-            less_path = opts['less_path']
-            args = ['lessc', '-x', less_path + 'style.less', css_path + 'style.css']
-            subprocess.call(args)
-            args = ['java', '-jar', opts['cssembed_path'], css_path + 'style.css', '-o', css_path + 'style_base64.css']
-            subprocess.call(args)
-            os.remove(css_path + 'style.css')
-            os.rename(css_path + 'style_base64.css', css_path + 'style.css')
-            view.set_status('less', 'File saved and LESS compiled for  ' + folder_name)
+            lessc = 'lessc'
+
+        css_path = opts['css_path']
+        less_path = opts['less_path']
+        args = [lessc, '-x', less_path + 'style.less', css_path + 'style.css']
+        subprocess.call(args)
+        args = ['java', '-jar', opts['cssembed_path'], css_path + 'style.css', '-o', css_path + 'style_base64.css']
+        subprocess.call(args)
+        os.remove(css_path + 'style.css')
+        os.rename(css_path + 'style_base64.css', css_path + 'style.css')
+        view.set_status('less', 'File saved and LESS compiled forfolder ' + folder_name)
