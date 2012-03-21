@@ -25,25 +25,23 @@ class CompileLessOnSave(sublime_plugin.EventListener):
             view.set_status('less', 'File saved but no LESS configuration found for folder ' + folder_name)
             return
 
-        if os.name == "nt":
-            lessc = os.path.dirname(os.path.realpath(__file__)) + '\LESS\windows\lessc.exe'
-        else:
-            lessc = 'lessc'
+        lessc = opts['lessc_bin']
+        java = opts['java_bin']
 
         css_path = opts['css_path']
         less_path = opts['less_path']
 
         args = [lessc, '-x', less_path + 'style.less', css_path + 'style.css']
         p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-	output, errors = p.communicate()
-	if errors:
+        output, errors = p.communicate()
+        if errors:
             sublime.error_message(errors)
             return
 
-        args = ['java', '-jar', opts['cssembed_path'], css_path + 'style.css', '-o', css_path + 'style_base64.css']
+        args = [java, '-jar', opts['cssembed_path'], css_path + 'style.css', '-o', css_path + 'style_base64.css']
         p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-	output, errors = p.communicate()
-	if errors:
+        output, errors = p.communicate()
+        if errors:
             sublime.error_message(errors)
             return
 
